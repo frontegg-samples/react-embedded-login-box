@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useAuth, useAuthUser } from '@frontegg/react'
+import {useHistory} from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const user = useAuthUser();
+    const history = useHistory();
+    // const { user, isAuthenticated } = useAuth(); // Use this to avoid redirect to /account/login
+
+    return (
+        <div className='App'>
+            <div>
+                <img src={user?.profilePictureUrl} alt={user?.name}/>
+            </div>
+            <div>
+                <span>Logged in as: {user?.name}</span>
+            </div>
+            <div>
+                <button onClick={() => alert(user.accessToken)}>What is my access token?</button>
+            </div>
+            <div>
+                <button onClick={() => history.push('/account/logout')}>Click me to logout</button>
+            </div>
+        </div>
+    );
 }
 
 export default App;
